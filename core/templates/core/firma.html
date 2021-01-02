@@ -1,33 +1,31 @@
 {%extends 'home/index.html'%}
 {%block title%}Hoşgeldiniz{%endblock%}
+{%block logout%}
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item active">
+    <a class="nav-link"  href="/cikisyap">Çıkış Yap<span class="sr-only">(current)</span></a>
+  </li>
+</ul>
+{%endblock%}
 {%block content%}
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Siparişler</h5>
-      <p class="card-text">Bayileriniz tarafından gönderilen siparişleri incelemek için tıklayınız.</p>
-      <a href="#" class="btn btn-primary">Siparişleri incele</a>
+<div class="row" style="margin-top: 11px;">
+  <div class="col-3">
+    <div class="list-group" id="list-tab" role="tablist">
+      <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Siparişler</a>
+      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Ürünler</a>
+      <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Ödemeler</a>
+      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Bayiler</a>
     </div>
   </div>
-  <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Ödemeler</h5>
-      <p class="card-text">Ödemeleri düzenlemek için tıklayınız</p>
-      <a href="#" class="btn btn-primary">Ödemeleri incele</a>
+  <div class="col-9">
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+        {%include "core/siparisler.html"%}
+      </div>
+      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+      <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
     </div>
   </div>
-  <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Ürünler</h5>
-      <p class="card-text">Ürün oluşturma ve ürünlerde kullanılan hammaddeleri belirlemek için tıklayınız</p>
-      <a href="#" class="btn btn-primary">Ürünleri incele</a>
-    </div>
-  </div>
-  <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Bayiler</h5>
-      <p class="card-text">Bayilik taleplerni onaylamak ve Bayilerinizin bilgilerini görüntülemek için tıklayınız</p>
-      <a href="#" class="btn btn-primary">Bayileri incele</a>
-    </div>
-  </div>
-
+</div>
   {%endblock%}

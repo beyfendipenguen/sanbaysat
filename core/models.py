@@ -64,7 +64,7 @@ class Reçete(models.Model):
     miktar = models.IntegerField(default=0)
 
 
-class Sipariş(models.Model):        
+class Sipariş(models.Model):
     bayi = models.ForeignKey(Bayi, on_delete=models.DO_NOTHING)
     sipariş_tarihi = models.DateField(auto_now_add=True,editable=False,blank=True)
     teslim_tarihi = models.DateField(editable=True,blank=True)
@@ -105,4 +105,17 @@ class Satış(models.Model):
     ödeme_aracı = models.CharField(max_length=5,choices=ödeme_araçları)
 
 
-    
+#TODO Ürünler sayfası bağlanacak
+#TODO bayiler listelenecek
+#TODO bayi kayıt sayfası oluşturulacak kayıt işlemi gerçekleştirilecek giriş yapan bayi
+# bayi arayüzüne yönlendirilecek
+
+#TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek
+    #TODO Sipariş
+    #TODO Ürün ekleme
+    #TODO Bayi
+    #TODO Ödeme
+    #TODO Reçete
+
+#TODO Bayi arayüzündeki fonksiyonlar çalışır hale getirilecek
+
