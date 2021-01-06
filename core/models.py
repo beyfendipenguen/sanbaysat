@@ -34,7 +34,7 @@ class Müşteri(models.Model):
     soyadı = models.CharField(max_length=20)
     adres = models.TextField()
     telefon = models.CharField(max_length=11)
-    adres = models.TextField()
+
 
 
 class Hammadde(models.Model):
@@ -67,9 +67,9 @@ class Reçete(models.Model):
 class Sipariş(models.Model):
     bayi = models.ForeignKey(Bayi, on_delete=models.DO_NOTHING)
     sipariş_tarihi = models.DateField(auto_now_add=True,editable=False,blank=True)
-    teslim_tarihi = models.DateField(editable=True,blank=True)
-    tutar = models.FloatField(blank=True)
-    onaylandı= models.BooleanField()
+    teslim_tarihi = models.DateField(null=True, editable=True,blank=True)
+    tutar = models.FloatField(null=True,blank=True)
+    onaylandı= models.BooleanField(null=True)
 
 class Sipariş_Ürün(models.Model):
     sipariş = models.ForeignKey(Sipariş, on_delete=models.CASCADE)
@@ -118,4 +118,3 @@ class Satış(models.Model):
     #TODO Reçete
 
 #TODO Bayi arayüzündeki fonksiyonlar çalışır hale getirilecek
-

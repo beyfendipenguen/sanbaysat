@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'core',
+    'firma',
+    'bayi',
     'dateutil',#bakım tarihini ileri atamak için gerekli framework
 ]
 

@@ -1,0 +1,26 @@
+<div class="card card-body">
+	
+		<table class="table table-sm">
+			<tr>
+				<th>Ürünler</th>
+				<th>Sipariş Tarihi</th>
+				<th>Durum</th>
+				<th>Onayla</th>
+				<th>Sil</th>
+			</tr>
+
+			{% for siparis in siparişler %}
+				<tr>
+						<td><a class="btn btn-sm btn-info text-white" role="button"href="">ürünleri gör</a></td>
+						<td>{{siparis.sipariş_tarihi}}</td>
+						<td>{{siparis.onaylandı}}</td>
+						<td><a class="btn btn-sm btn-info text-white"role="button" href="">onayla</a></td>
+
+						<td><a class="btn btn-sm btn-danger text-white"role="button" href="">sil</a></td>
+
+					</tr>
+				{% endfor %}
+
+		
+			</table>
+		</div>
