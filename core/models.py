@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-
+dürümler=[
+    (True,'Onaylandı'),
+    (False,'Onay Aşamasında')
+]
 kapaklar = [
     ('ALM','Aliminyum'),
     ('STL','Çelik')
@@ -26,7 +29,7 @@ class Bayi(models.Model):
     telefon = models.CharField(max_length=11)
     adres = models.TextField()
     ülke = models.CharField(max_length=20)
-    aktif = models.BooleanField(default=True)
+    aktif = models.BooleanField(default=False)
 
 
 class Müşteri(models.Model):
@@ -34,7 +37,7 @@ class Müşteri(models.Model):
     soyadı = models.CharField(max_length=20)
     adres = models.TextField()
     telefon = models.CharField(max_length=11)
-    adres = models.TextField()
+
 
 
 class Hammadde(models.Model):
@@ -64,12 +67,15 @@ class Reçete(models.Model):
     miktar = models.IntegerField(default=0)
 
 
-class Sipariş(models.Model):        
+class Sipariş(models.Model):
     bayi = models.ForeignKey(Bayi, on_delete=models.DO_NOTHING)
     sipariş_tarihi = models.DateField(auto_now_add=True,editable=False,blank=True)
-    teslim_tarihi = models.DateField(editable=True,blank=True)
-    tutar = models.FloatField(blank=True)
-    onaylandı= models.BooleanField()
+    teslim_tarihi = models.DateField(null=True, editable=True,blank=True)
+    tutar = models.FloatField(null=True,blank=True)
+    onaylandı= models.BooleanField(null=True, choices=dürümler)
+
+    def __str__(self):
+        return str(self.pk)
 
 class Sipariş_Ürün(models.Model):
     sipariş = models.ForeignKey(Sipariş, on_delete=models.CASCADE)
@@ -105,4 +111,16 @@ class Satış(models.Model):
     ödeme_aracı = models.CharField(max_length=5,choices=ödeme_araçları)
 
 
-    
+#TODO Ürünler sayfası bağlanacak
+#TODO bayi onaylandı tuşu çalıştırılacak
+#TODO bayi kayıt sayfası oluşturulacak kayıt işlemi gerçekleştirilecek giriş yapan bayi
+# bayi arayüzüne yönlendirilecek
+
+#TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek
+    #TODO Sipariş
+    #TODO Ürün ekleme
+    #TODO Bayi
+    #TODO Ödeme
+    #TODO Reçete
+
+#TODO Bayi arayüzündeki fonksiyonlar çalışır hale getirilecek

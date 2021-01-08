@@ -1,10 +1,16 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from core.models import Bayi
 
 # Create your views here.
 
 def home(request):
     return render(request, "home/index.html", {})
+
+def bayilerimiz(request):
+    bayiler = Bayi.objects.all()
+    context={"bayiler":bayiler}
+    return render(request, "home/bayilerimiz.html", context)
 
 def loginPage(request):
     cevap = {}
@@ -25,10 +31,8 @@ def loginPage(request):
 
     return render(request, "home/login.html", cevap)
 
-
-def firma(request):
-
-    return render(request, "core/firma.html", {})
-
-def bayi(request):
-    return render(request, "core/bayi.html", {})
+def signIn(request):
+    return render(request,"home/bayikayit.html")
+def cikisyap(request):
+    logout(request)
+    return redirect('home')
