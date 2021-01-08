@@ -2,7 +2,9 @@
 	
 		<table class="table table-sm">
 			<tr>
+
 				<th>İstenen Ürünler</th>
+
 				<th>Sipariş Tarihi</th>
 				<th>Durum</th>
 				<th>Onayla</th>
@@ -11,6 +13,7 @@
 
 			{% for siparis in siparişler %}
 				<tr>
+
 						<td><a class="btn btn-sm btn-info text-white" role="button"href="">Ürünleri Gör</a></td>
 						<td>{{siparis.sipariş_tarihi}}</td>
 						{% if siparis.onaylandı %}

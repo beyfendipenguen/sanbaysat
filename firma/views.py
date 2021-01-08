@@ -1,5 +1,7 @@
 from django.shortcuts import render
+
 from core.models import Sipariş, Ürün, Ödeme, Bayi 
+
 # Create your views here.
 def firma(request):
     #TODO kullanıcı girişi
@@ -7,12 +9,15 @@ def firma(request):
     ürünler = Ürün.objects.all()
     bayiler = Bayi.objects.all()
     ödemeler = Ödeme.objects.all()
+
     """if user is not None:
         if user.super_user_status:
         else:
             return redirect('home')
 """
+
     return render(request, "firma/firma.html", {"siparişler":siparişler, "ürünler":ürünler, "bayiler":bayiler,"ödemeler":ödemeler})
+
 
 
 

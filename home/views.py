@@ -31,8 +31,10 @@ def loginPage(request):
 
     return render(request, "home/login.html", cevap)
 
+
 def signIn(request):
     return render(request,"home/bayikayit.html")
+
 def cikisyap(request):
     logout(request)
     return redirect('home')

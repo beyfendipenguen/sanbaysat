@@ -72,10 +72,12 @@ class Sipariş(models.Model):
     sipariş_tarihi = models.DateField(auto_now_add=True,editable=False,blank=True)
     teslim_tarihi = models.DateField(null=True, editable=True,blank=True)
     tutar = models.FloatField(null=True,blank=True)
+
     onaylandı= models.BooleanField(null=True, choices=dürümler)
 
     def __str__(self):
         return str(self.pk)
+
 
 class Sipariş_Ürün(models.Model):
     sipariş = models.ForeignKey(Sipariş, on_delete=models.CASCADE)
@@ -112,7 +114,10 @@ class Satış(models.Model):
 
 
 #TODO Ürünler sayfası bağlanacak
-#TODO bayi onaylandı tuşu çalıştırılacak
+
+#TODO bayi onaylandı tuşu çalıştırılac
+#TODO bayiler listelenecek
+
 #TODO bayi kayıt sayfası oluşturulacak kayıt işlemi gerçekleştirilecek giriş yapan bayi
 # bayi arayüzüne yönlendirilecek
 
