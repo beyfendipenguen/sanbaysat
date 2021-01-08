@@ -21,5 +21,4 @@ urlpatterns = [
     path("", include("home.urls")),
     path("bayi/", include("bayi.urls")),
     path("firma/", include("firma.urls")),
-
 ]

@@ -17,13 +17,16 @@
       </thead>
       <tbody>
         {% for bayi in bayiler %}
-        <tr>
-          <th scope="row"></th>
-          <td><a href=""> {{bayi.adı}}</a></td>
-          <td>{{bayi.telefon}}</td>
-          <td>{{bayi.adres}}</td>
-        </tr>
-       
+
+        {%if bayi.aktif%}
+          <tr>
+            <th scope="row"></th>
+            <td><a href=""> {{bayi.adı}}</a></td>
+            <td>{{bayi.telefon}}</td>
+            <td>{{bayi.adres}}</td>
+          </tr>
+         {%endif%}
+
         {%endfor%}
       </tbody>
     </table>

@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-
+dürümler=[
+    (True,'Onaylandı'),
+    (False,'Onay Aşamasında')
+]
 kapaklar = [
     ('ALM','Aliminyum'),
     ('STL','Çelik')
@@ -26,7 +29,7 @@ class Bayi(models.Model):
     telefon = models.CharField(max_length=11)
     adres = models.TextField()
     ülke = models.CharField(max_length=20)
-    aktif = models.BooleanField(default=True)
+    aktif = models.BooleanField(default=False)
 
 
 class Müşteri(models.Model):
@@ -69,7 +72,12 @@ class Sipariş(models.Model):
     sipariş_tarihi = models.DateField(auto_now_add=True,editable=False,blank=True)
     teslim_tarihi = models.DateField(null=True, editable=True,blank=True)
     tutar = models.FloatField(null=True,blank=True)
-    onaylandı= models.BooleanField(null=True)
+
+    onaylandı= models.BooleanField(null=True, choices=dürümler)
+
+    def __str__(self):
+        return str(self.pk)
+
 
 class Sipariş_Ürün(models.Model):
     sipariş = models.ForeignKey(Sipariş, on_delete=models.CASCADE)
@@ -106,7 +114,10 @@ class Satış(models.Model):
 
 
 #TODO Ürünler sayfası bağlanacak
+
+#TODO bayi onaylandı tuşu çalıştırılac
 #TODO bayiler listelenecek
+
 #TODO bayi kayıt sayfası oluşturulacak kayıt işlemi gerçekleştirilecek giriş yapan bayi
 # bayi arayüzüne yönlendirilecek
 

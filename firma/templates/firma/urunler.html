@@ -1,0 +1,33 @@
+<div class="card card-body">
+
+  <table class="table table-sm">
+    <tr>
+      <th>Ürün Adı</th>
+      <th>Kapak Cinsi</th>
+      <th>Genişlik</th>
+      <th>Yükseklik</th>
+      <th>Voltaj</th>
+      <th>Ağırlık</th>
+      <th>Bakım Aralığı</th>
+      <th>Fiyat</th>
+      <th>Sil</th>
+    </tr>
+
+    {% for urun in ürünler %}
+    <tr>
+      <td>{{urun.adı}}</td>
+      <td>{{urun.kapak}}</td>
+      <td>{{urun.genişlik}}</td>
+      <td>{{urun.yükseklik}}</td>
+      <td>{{urun.voltaj}}</td>
+      <td>{{urun.ağırlık}}</td>
+      <td>{{urun.bakım_aralığı}}</td>
+      <td>{{urun.fiyat}}</td>
+      <td><a class="btn btn-sm btn-danger text-white" role="button" href="">Sil</a></td>
+
+    </tr>
+    {% endfor %}
+
+
+  </table>
+</div>

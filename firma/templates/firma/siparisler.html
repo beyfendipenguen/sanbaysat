@@ -2,7 +2,9 @@
 	
 		<table class="table table-sm">
 			<tr>
-				<th>Ürünler</th>
+
+				<th>İstenen Ürünler</th>
+
 				<th>Sipariş Tarihi</th>
 				<th>Durum</th>
 				<th>Onayla</th>
@@ -11,12 +13,17 @@
 
 			{% for siparis in siparişler %}
 				<tr>
-						<td><a class="btn btn-sm btn-info text-white" role="button"href="">ürünleri gör</a></td>
-						<td>{{siparis.sipariş_tarihi}}</td>
-						<td>{{siparis.onaylandı}}</td>
-						<td><a class="btn btn-sm btn-info text-white"role="button" href="">onayla</a></td>
 
-						<td><a class="btn btn-sm btn-danger text-white"role="button" href="">sil</a></td>
+						<td><a class="btn btn-sm btn-info text-white" role="button"href="">Ürünleri Gör</a></td>
+						<td>{{siparis.sipariş_tarihi}}</td>
+						{% if siparis.onaylandı %}
+						<td>Onaylandı</td>
+						{% else%}
+						<td>Onay Aşamasında</td>
+						{%endif%}
+						<td><a class="btn btn-sm btn-info text-white"role="button" href="">Onayla</a></td>
+
+						<td><a class="btn btn-sm btn-danger text-white"role="button" href="">Sil</a></td>
 
 					</tr>
 				{% endfor %}
