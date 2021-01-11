@@ -20,12 +20,10 @@ def loginPage(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request,user)
-            return redirect('firma')
-            # if user.superuser:
-            #   return redirect("firma")
-            # else:
-
-            #    return redirect("bayi")
+            if user.is_superuser:
+                return redirect("firma")
+            else:
+                return redirect("bayi")
         else:
             cevap ={"cevap":"Kullanıcı adı veya Şifre hatalı"}
 

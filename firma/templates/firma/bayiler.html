@@ -17,10 +17,10 @@
       <td>{{bayi.şehir}}</td>
       <td>{{bayi.ülke}}</td>
       <td>{{bayi.telefon}}</td>
-      <td><a class="btn btn-sm btn-danger text-white" role="button" href="">Sil</a></td>
+      <td><a class="btn btn-sm btn-danger text-white" role="button" href="bayiSil/{{bayi.pk}}">Sil</a></td>
       {%if bayi.aktif == False%}
-      <td><a class="btn btn-sm btn-info text-white" role="button" href="">Onayla</a></td>
-    {% endif %}
+      <td><a class="btn btn-sm btn-info text-white" role="button" href="bayiOnayla/{{bayi.pk}}">Onayla</a></td>
+      {% endif %}
     </tr>
     {% endfor %}
 
