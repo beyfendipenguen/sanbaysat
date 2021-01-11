@@ -3,5 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.bayi, name="bayi"),
-    
+    path('bayisatis/',views.bayisatis,name="bayisatis"),
+    path('bayisiparis/',views.siparis_et,
+    name="siparis_et")
 ]
