@@ -127,3 +127,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR/"static",
 ]
+MIDDLEWARE_CLASSES = ('django.middleware.csrf.CsrfViewMiddleware')

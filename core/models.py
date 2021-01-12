@@ -115,17 +115,14 @@ class Satış(models.Model):
 
 #TODO Ürünler sayfası bağlanacak
 
-#TODO bayi onaylandı tuşu çalıştırılac
-#TODO bayiler listelenecek
-
-#TODO bayi kayıt sayfası oluşturulacak kayıt işlemi gerçekleştirilecek giriş yapan bayi
-# bayi arayüzüne yönlendirilecek
+#TODO bayi kayıt sayfası oluşturulacak kayıt işlemi gerçekleştirilecek 
 
 #TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek
     #TODO Sipariş
     #TODO Ürün ekleme
+    # TODO ürünleri göster tuşu
     #TODO Bayi
     #TODO Ödeme
     #TODO Reçete
-
+#TODO hammadde tedarik sayfası yapılacak.
 #TODO Bayi arayüzündeki fonksiyonlar çalışır hale getirilecek

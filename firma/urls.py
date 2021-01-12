@@ -7,6 +7,10 @@ urlpatterns= [
     path('odemeler/', views.odemeler, name="odemeler"),
     path('urunler/', views.urunler, name="urunler"),
     path('bayiler/', views.bayiler, name="bayiler"),
-    path("siparis_ekle/", views.siparisEkle, name="siparisEkle"),
+    path("siparisEkle/", views.siparisEkle, name="siparisEkle"),
+    path("bayiSil/<int:id>", views.bayiSil, name="bayiSil"),
+    #path("nesneSil/<str:nesneadı>/<int:id>", views.nesneSil, name="nesneSil"),
+    path("bayiOnayla/<int:id>", views.bayiOnayla, name="bayiOnayla"),
+
 
 ]
