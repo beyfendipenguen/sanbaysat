@@ -7,6 +7,10 @@ from core.models import Bayi
 def home(request):
     return render(request, "home/index.html", {})
 
+
+def urunler(request):
+    return render(request,"home/urunler.html")
+
 def bayilerimiz(request):
     bayiler = Bayi.objects.all()
     context={"bayiler":bayiler}
@@ -30,7 +34,6 @@ def loginPage(request):
             cevap ={"cevap":"Kullanıcı adı veya Şifre hatalı"}
 
     return render(request, "home/login.html", cevap)
-
 
 def signIn(request):
     return render(request,"home/bayikayit.html")
