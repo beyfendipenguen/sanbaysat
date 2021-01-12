@@ -113,11 +113,10 @@ class Satış(models.Model):
     ödeme_aracı = models.CharField(max_length=5,choices=ödeme_araçları)
 
 
-#TODO Ürünler sayfası bağlanacak
 
-#TODO bayi kayıt sayfası oluşturulacak kayıt işlemi gerçekleştirilecek 
+ 
 
-#TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek
+#TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek / Sipariş Sil,Ürünler Sil, Ödemeler  Sil
     #TODO Sipariş
     #TODO Ürün ekleme
     # TODO ürünleri göster tuşu
