@@ -10,11 +10,14 @@ from .forms import SiparisForm
 def bayi(request):
     bayisatis = Satış.objects.all()
     form = SiparisForm()
-    luser = User.objects.get(pk=request.user.pk)
-    print(luser)
-    bayiler = Bayi.objects.filter(user=luser)
-    print(bayiler)
-    return render(request, "bayi/bayi.html", {"bayisatis":bayisatis, "form":form})
+    context = {"bayisatis":bayisatis, "form":form}
+    #bayiler = Bayi.objects.filter(user=luser)
+    user = User.objects.get(pk=request.user.pk)
+    if user is not None:
+        if user.is_staff:
+            return render(request, "bayi/bayi.html", context)
+        else:
+            return render(request, "bayi/bilgilendirme.html")
 
 def bayisatis(request):
     return render(request,"bayi/bayisatis.html",{})

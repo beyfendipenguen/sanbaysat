@@ -24,12 +24,12 @@ def bayiSil(request,id):
     bayi = Bayi.objects.get(pk=id)
     bayi.delete()
     return redirect("firma")
-
+"""
 def nesneSil(request,nesneadı,id):
     nesne = nesneadı.objects.get(pk=id)
     nesne.delete()
     return redirect("firma")
-
+"""
 def bayiOnayla(request,id):
     bayi = Bayi.objects.get(pk=id)
     bayi.aktif = True
