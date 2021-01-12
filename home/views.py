@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from core.models import Bayi
 from django.contrib.auth.forms import UserCreationForm
+from bayi.forms import createBayi
 
 # Create your views here.
 
@@ -40,10 +41,12 @@ def signIn(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('loginPage')
+            return redirect('bayi')
     else:
         form = UserCreationForm()
-    return render(request,"home/bayikayit.html",{"form":form})
+    return render(request,"home/üyekayıt.html",{"form":form})
+
+
 
 def cikisyap(request):
     logout(request)

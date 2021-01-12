@@ -32,6 +32,9 @@ def nesneSil(request,nesneadı,id):
 """
 def bayiOnayla(request,id):
     bayi = Bayi.objects.get(pk=id)
+    kullanıcı = User.objects.get(pk=bayi.user.pk)
+    kullanıcı.is_staff=True
+    kullanıcı.save()
     bayi.aktif = True
     bayi.save()
 

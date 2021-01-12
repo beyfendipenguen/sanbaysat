@@ -120,6 +120,7 @@ class Satış(models.Model):
 #TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek
     #TODO Sipariş
     #TODO Ürün ekleme
+    # TODO ürünleri göster tuşu
     #TODO Bayi
     #TODO Ödeme
     #TODO Reçete

@@ -1,0 +1,13 @@
+{% extends "home/index.html"%}
+
+{% block content %}
+<div class="center-align">
+  <form action="" method="post">
+    {%csrf_token%}
+    {% include "core/form_template.html" %}
+    <input type="submit" value="gönder">
+  
+  </form>
+</div>
+
+{% endblock %}
