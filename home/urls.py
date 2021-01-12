@@ -8,5 +8,5 @@ urlpatterns = [
     path('login/', views.loginPage, name="loginPage"),
     path('cikisyap/', views.cikisyap, name="cikisyap"),
     path('signIn/',views.signIn,name="signIn"),
-
+    path('urunler/',views.urunler,name="urunler")
 ]
