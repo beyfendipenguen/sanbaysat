@@ -9,8 +9,7 @@ urlpatterns= [
     path('bayiler/', views.bayiler, name="bayiler"),
     path("siparisEkle/", views.siparisEkle, name="siparisEkle"),
     path("bayiSil/<int:id>", views.bayiSil, name="bayiSil"),
-    #path("nesneSil/<str:nesneadı>/<int:id>", views.nesneSil, name="nesneSil"),
     path("bayiOnayla/<int:id>", views.bayiOnayla, name="bayiOnayla"),
-
+    path("ürünGöster/<int:id>", views.siparişÜrün, name="siparişÜrün"),
 
 ]

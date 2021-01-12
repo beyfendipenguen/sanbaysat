@@ -20,6 +20,11 @@ def firma(request):
     return render(request, "firma/firma.html", {"siparişler":siparişler, "ürünler":ürünler, "bayiler":bayiler,"ödemeler":ödemeler})
 
 
+def siparişÜrün(request,id):
+    s_ü = Sipariş_Ürün.objects.filter(sipariş_pk=id)
+    context = {'ürünler':s_ü}
+    return render(request,"firma/urungoster.html",context)
+
 def bayiSil(request,id):
     bayi = Bayi.objects.get(pk=id)
     bayi.delete()
