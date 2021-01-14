@@ -1,6 +1,51 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from .forms import ürünEkleForm, ödemeEkleForm
 from core.models import Sipariş, Ürün, Ödeme, Bayi, Sipariş_Ürün
+"""
+def modelAdıEkle(request):
+    if request.method == "POST":
+        form = modelAdıEkleForm(request.POST)
+        if form.is_valid():
+            #form bilgileri
+            #model.save()
+            return redirect("Yönlendirilecek Sayfa")
+    
+    else:
+        form = modelAdıEkleForm()
+    context = {"form":form}
+    return render(request,"tempalteAdı",context)
+""" 
+def ödemeEkle(request):
+    if request.method == "POST":
+        form = ödemeEkleForm(request.POST)
+        if form.is_valid():
+            #form bilgileri
+            #model.save()
+            form.save()
+            return redirect("firma")
+    
+    else:
+        form = ödemeEkleForm()
+    context = {"form":form}
+    return render(request,"firma/ödemeEkle.html",context)
+
+def ürünEkle(request):
+    if request.method == "POST":
+        form = ürünEkleForm(request.POST)
+        if form.is_valid():
+            #form bilgileri
+            #model.save()
+            form.save()
+            return redirect("firma")
+    
+    else:
+        form = ürünEkleForm()
+    context = {"form":form}
+    return render(request, "firma/ürünEkle.html", context)
+        
+
+
 
 # Create your views here.
 def firma(request):
@@ -27,7 +72,11 @@ def siparişÜrün(request,id):
 
 def bayiSil(request,id):
     bayi = Bayi.objects.get(pk=id)
+    kullanıcı = bayi.user
     bayi.delete()
+    if Bayi.objects.filter(user_id=kullanıcı.id).__bool__() == False:
+        kullanıcı.is_staff = False
+        kullanıcı.save()
     return redirect("firma")
 """
 def nesneSil(request,nesneadı,id):

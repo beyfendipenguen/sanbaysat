@@ -11,5 +11,7 @@ urlpatterns= [
     path("bayiSil/<int:id>", views.bayiSil, name="bayiSil"),
     path("bayiOnayla/<int:id>", views.bayiOnayla, name="bayiOnayla"),
     path("ürünGöster/<int:id>", views.siparişÜrün, name="siparişÜrün"),
+    path("ürünEkle/", views.ürünEkle, name="ürünEkle"),
+    path("ödemeEkle/", views.ödemeEkle, name="ödemeEkle"),
 
 ]
