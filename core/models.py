@@ -31,6 +31,9 @@ class Bayi(models.Model):
     ülke = models.CharField(max_length=20)
     aktif = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.adı
+
 
 class Müşteri(models.Model):
     adı = models.CharField(max_length=20)
@@ -47,6 +50,10 @@ class Hammadde(models.Model):
     depodaki_miktar = models.IntegerField(default=0)
     tedarik_süresi = models.IntegerField(default=1)
     kritik_seviye = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.adı
+
 
 
 class Ürün(models.Model):
@@ -60,7 +67,11 @@ class Ürün(models.Model):
     bakım_aralığı = models.IntegerField()
     fiyat = models.FloatField()
     #depodaki_miktar= models.IntegerField(default=0)
-    # Depodaki miktar ürün üretmek için eklendi
+    # Depodaki miktar ürün üretmek için eklendi,
+    
+    def __str__(self):
+        return self.adı
+
 
 
 class Reçete(models.Model):

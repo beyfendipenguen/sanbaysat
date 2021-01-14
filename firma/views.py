@@ -105,23 +105,17 @@ def bayiler(request):
 def urunler(request):
     return render(request, "firma/urunler.html", {})
 
-
-def siparisEkle(request):
-    s = Sipariş()
-    context = {}
-    return render(request, "firma/siparisler.html", context)
-
-def firmaSiparisSil(request):
+def firmaSiparisSil(request,id):
     firmaSiparis= Sipariş.objects.get(pk=id)
     firmaSiparis.delete()
     return redirect("firma")
 
-def firmaUrunSil(request):
+def firmaUrunSil(request,id):
     firmaUrun = Ürün.objects.get(pk=id)
     firmaUrun.delete()
     return redirect("firma")
 
-def firmaOdemeSil(request):
+def firmaOdemeSil(request,id):
     firmaOdeme = Ödeme.objects.get(pk=id)
     firmaOdeme.delete()
     return redirect("firma")

@@ -1,9 +1,55 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from core.models import Satış, Sipariş, Bayi, Bakım
-from .models import *
-from .forms import SiparisForm, createBayi, nameForm
+from core.models import Satış, Sipariş, Bayi, Bakım, Müşteri
+from .forms import SiparisForm, createBayi, nameForm, satışEkleForm, müşteriEkleForm
+"""
+def modelAdıEkle(request):
+    if request.method == "POST":
+        form = modelAdıEkleForm(request.POST)
+        if form.is_valid():
+            #form bilgileri
+            #model.save()
+            return redirect("Yönlendirilecek Sayfa")
+    
+    else:
+        form = modelAdıEkleForm()
+    context = {"form":form}
+    return render(request,"tempalteAdı",context)
+""" 
+def müşteriEkle(request):
+    if request.method == "POST":
+        form = müşteriEkleForm(request.POST)
+        if form.is_valid():
+            #form bilgileri
+            #model.save()
+            form.save()
+            return redirect("satışEkle")
+    
+    else:
+        form = müşteriEkleForm()
+    context = {"form":form}
+    return render(request,"bayi/müşteriEkle.html",context)
 
+def satışEkle(request):
+    user = User.objects.get(pk=request.user.pk)
+    if request.method == "POST":
+        form = satışEkleForm(request.POST)
+        if form.is_valid():
+            satış = Satış(
+                bayi = user,
+                müşteri=form.cleaned_data['müşteri'],
+                ürün= form.cleaned_data['ürün'],
+                satış_fiyatı = form.cleaned_data['satış_fiyatı'],
+                alış_fiyatı = form.cleaned_data['alış_fiyatı'],
+                ödeme_aracı = form.cleaned_data['ödeme_aracı'],
+            )
+            print(satış)
+            satış.save()
+            return redirect("bayi")
+    else:
+        form = satışEkleForm()
+    context = {"form":form}
+    return render(request,"bayi/satışEkle.html",context)
 
 def bayi(request):
     try:

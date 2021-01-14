@@ -10,5 +10,6 @@ urlpatterns = [
     path('bakimSil/<int:id>', views.bakimSil,name="bakimSil"),
     path('bilgilendirme/', views.bilgilendirme, name = "bilgilendirme"),
     path('bayikayıt/', views.bayiKayıt, name="bayiKayıt"),
-
+    path('satışYap', views.satışEkle, name="satışEkle"),
+    path('müşteriEkle', views.müşteriEkle, name="müşteriEkle"),
 ]
