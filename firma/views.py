@@ -66,7 +66,7 @@ def firma(request):
 
 
 def siparişÜrün(request,id):
-    s_ü = Sipariş_Ürün.objects.filter(sipariş_pk=id)
+    s_ü = Sipariş_Ürün.objects.filter(sipariş_id=id)
     context = {'ürünler':s_ü}
     return render(request,"firma/urungoster.html",context)
 
@@ -91,7 +91,6 @@ def bayiOnayla(request,id):
     kullanıcı.save()
     bayi.aktif = True
     bayi.save()
-
     return redirect("firma")
 
 def siparisler(request):
@@ -111,3 +110,18 @@ def siparisEkle(request):
     s = Sipariş()
     context = {}
     return render(request, "firma/siparisler.html", context)
+
+def firmaSiparisSil(request):
+    firmaSiparis= Sipariş.objects.get(pk=id)
+    firmaSiparis.delete()
+    return redirect("firma")
+
+def firmaUrunSil(request):
+    firmaUrun = Ürün.objects.get(pk=id)
+    firmaUrun.delete()
+    return redirect("firma")
+
+def firmaOdemeSil(request):
+    firmaOdeme = Ödeme.objects.get(pk=id)
+    firmaOdeme.delete()
+    return redirect("firma")

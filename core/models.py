@@ -38,6 +38,8 @@ class Müşteri(models.Model):
     adres = models.TextField()
     telefon = models.CharField(max_length=11)
 
+    def __str__(self):
+        return str(self.adı)
 
 
 class Hammadde(models.Model):
