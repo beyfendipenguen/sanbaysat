@@ -16,6 +16,11 @@ def modelAdıEkle(request):
     context = {"form":form}
     return render(request,"tempalteAdı",context)
 """ 
+def bakımYap(request):
+    context = {}
+    return render(request, 'bayi/bakımYap.html', context)
+
+
 def müşteriEkle(request):
     if request.method == "POST":
         form = müşteriEkleForm(request.POST)
@@ -33,35 +38,38 @@ def müşteriEkle(request):
 def satışEkle(request):
     user = User.objects.get(pk=request.user.pk)
     if request.method == "POST":
+        bayi = request.POST.get('bayi')
+        bayi = Bayi.objects.get(pk=bayi)
+        print(bayi)
         form = satışEkleForm(request.POST)
         if form.is_valid():
             satış = Satış(
-                bayi = user,
+                bayi = bayi,
                 müşteri=form.cleaned_data['müşteri'],
-                ürün= form.cleaned_data['ürün'],
+                ürün=form.cleaned_data['ürün'],
                 satış_fiyatı = form.cleaned_data['satış_fiyatı'],
                 alış_fiyatı = form.cleaned_data['alış_fiyatı'],
-                ödeme_aracı = form.cleaned_data['ödeme_aracı'],
+                ödeme_aracı =  form.cleaned_data['ödeme_aracı']
             )
-            print(satış)
             satış.save()
             return redirect("bayi")
     else:
         form = satışEkleForm()
-    context = {"form":form}
+        bayilerim = Bayi.objects.filter(user_id=user.id)
+    context = {"form":form,'bayilerim':bayilerim}
     return render(request,"bayi/satışEkle.html",context)
 
 def bayi(request):
     try:
         user = User.objects.get(pk=request.user.pk)
     except:
-        return redirect('loginPage') 
-    bayisatis = Satış.objects.all()
-    form = SiparisForm()
-    context = {"bayisatis":bayisatis, "form":form}
-    #bayiler = Bayi.objects.filter(user=luser)
+        return redirect('loginPage')
     if user is not None:
         if user.is_staff:
+            bayi = Bayi.objects.get(user=user)
+            bayisatis = Satış.objects.filter(bayi=bayi)
+            form = SiparisForm()
+            context = {"bayisatis":bayisatis, "form":form}
             return render(request, "bayi/bayi.html", context)
         else:
             return redirect('bilgilendirme')

@@ -24,7 +24,7 @@ voltajlar = [
 
 class Bayi(models.Model):
     adı = models.CharField(max_length=20)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     şehir = models.CharField(max_length=20)
     telefon = models.CharField(max_length=11)
     adres = models.TextField()
@@ -36,6 +36,7 @@ class Bayi(models.Model):
 
 
 class Müşteri(models.Model):
+    bayi = models.ForeignKey(Bayi,on_delete=models.CASCADE) 
     adı = models.CharField(max_length=20)
     soyadı = models.CharField(max_length=20)
     adres = models.TextField()
@@ -108,8 +109,10 @@ class Bakım(models.Model):
     ürün = models.ForeignKey(Ürün, on_delete=models.DO_NOTHING)
     bakım_tarihi = models.DateField(auto_now_add=True, editable=False, blank=True)
     #TODO gelecek bakım tarihi otomatik olarak ürün bakım aralığı hesaplanıp üzerine eklenecek
+    #TODO auto_now_add 
     tutar = models.FloatField()
 
+#Bakım(müşteri=şu,ürün=bu,gelecek_bakım_tarihi=date.now+ürün.bakım_aralığı,tutar=o)
 
 class Katolog(models.Model):
     ürün = models.ForeignKey(Ürün, on_delete=models.CASCADE)

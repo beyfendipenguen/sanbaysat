@@ -15,7 +15,7 @@ class SiparisForm(ModelForm):
 class satışEkleForm(ModelForm):
     class Meta: 
        model = Satış
-       fields = '__all__'
+       fields = ['müşteri','ürün','satış_fiyatı','alış_fiyatı','ödeme_aracı']
 
 class müşteriEkleForm(ModelForm):
     class Meta: 

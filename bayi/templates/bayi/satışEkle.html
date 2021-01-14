@@ -3,14 +3,20 @@
 {% block content %}
 <div class="center-align">
     <form action="" method="POST">
-        {%csrf_token%}
         {{ form.non_field_errors }}
+        <label for="bayim">bayi:</label>
+        <select id="id_bayi" name="bayi">
+            {%for bayi in bayilerim%}
+                <option value="{{bayi.pk}}">{{bayi.adı}}</option>
+            {%endfor%}
+        </select>
+        {%csrf_token%}
         <div class="fieldWrapper">
             {{ form.müşteri.errors }}
             <label for="{{ form.müşteri.id_for_label }}">müşteri:</label>
-  {{ form.müşteri }}
-  <a class="btn btn-sm btn-success text-white" role="button" href="/bayi/müşteriEkle">+Müşteri Ekle</a> 
-</div>
+            {{ form.müşteri }}
+            <a class="btn btn-sm btn-success text-white" role="button" href="/bayi/müşteriEkle">+Müşteri Ekle</a> 
+        </div>
 <div class="fieldWrapper">
     {{ form.ürün.errors }}
     <label for="{{ form.ürün.id_for_label }}">Ürün:</label>
