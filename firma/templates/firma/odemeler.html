@@ -6,6 +6,7 @@
       <th>Tutar</th>
       <th>Tarih</th>
       <th>Ödeme Aracı</th>
+      <th>Güncelle</th>
       <th>Sil</th>
     </tr>
 
@@ -16,11 +17,19 @@
       <td>{{odeme.tutar}}</td>
       <td>{{odeme.tarih}}</td>
       <td>{{odeme.ödeme_aracı}}</td>
-      <td><a class="btn btn-sm btn-danger text-white" role="button" href="">Sil</a></td>
+      <td><a class="btn btn-sm btn-primary text-white" role="button" href="">Güncelle</a></td>
+      <td><a class="btn btn-sm btn-danger text-white" role="button" href="firmaOdemeSil/{{odeme.pk}}">Sil</a></td>
 
     </tr>
     {% endfor %}
 
 
   </table>
+  <div class="row" style="margin-top: 11px;">
+  
+    <div class="col-2">
+      <a href="/firma/ürünEkle" class="btn btn-m btn-success text-white">+ÖdemeEkle</a>
+    </div>
+  
+  </div>
 </div>
