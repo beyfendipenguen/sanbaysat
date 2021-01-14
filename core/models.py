@@ -59,7 +59,7 @@ class Ürün(models.Model):
     ağırlık = models.IntegerField()
     bakım_aralığı = models.IntegerField()
     fiyat = models.FloatField()
-    depodaki_miktar= models.IntegerField(default=0)
+    #depodaki_miktar= models.IntegerField(default=0)
     # Depodaki miktar ürün üretmek için eklendi
 
 
@@ -127,3 +127,4 @@ class Satış(models.Model):
     #TODO Reçete
 #TODO hammadde tedarik sayfası yapılacak.
 #TODO Bayi arayüzündeki fonksiyonlar çalışır hale getirilecek
+#TODO fabrikanın bayi sayfasına girememesi gerek
