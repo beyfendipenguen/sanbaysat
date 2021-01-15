@@ -16,6 +16,20 @@ def modelAdıEkle(request):
     context = {"form":form}
     return render(request,"tempalteAdı",context)
 """ 
+def siparişOnayla(request,id):
+    sipariş = Sipariş.objects.get(pk=id)
+    if sipariş.durum == 'b':
+        sipariş.durum='o'
+        sipariş.sipariş_takibi = 'h'
+        sipariş.save()
+        return redirect('firma')
+    elif sipariş.sipariş_takibi== 'h':
+        sipariş.sipariş_takibi = 'y'
+        sipariş.save()
+        return redirect('firma')
+    else:
+        return redirect('firma')
+
 def ödemeEkle(request):
     if request.method == "POST":
         form = ödemeEkleForm(request.POST)
@@ -62,7 +76,6 @@ def firma(request):
     ödemeler = Ödeme.objects.all()
     hammaddeler = Hammadde.objects.all()
     receteler = Reçete.objects.all()
-
     return render(request, "firma/firma.html", {"siparişler":siparişler, "ürünler":ürünler, "bayiler":bayiler,"ödemeler":ödemeler, "hammaddeler":hammaddeler, "receteler": receteler})
 
 
@@ -117,17 +130,17 @@ def siparisEkle(request):
     context = {}
     return render(request, "firma/siparisler.html", context)
 
-def firmaSiparisSil(request):
+def firmaSiparisSil(request,id):
     firmaSiparis= Sipariş.objects.get(pk=id)
     firmaSiparis.delete()
     return redirect("firma")
 
-def firmaUrunSil(request):
+def firmaUrunSil(request,id):
     firmaUrun = Ürün.objects.get(pk=id)
     firmaUrun.delete()
     return redirect("firma")
 
-def firmaOdemeSil(request):
+def firmaOdemeSil(request,id):
     firmaOdeme = Ödeme.objects.get(pk=id)
     firmaOdeme.delete()
     return redirect("firma")

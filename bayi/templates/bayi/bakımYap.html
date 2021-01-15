@@ -8,14 +8,11 @@
 </ul>
 {%endblock%}
 
-{% block content %}
-<div class="center-align">
-  <form action="" method="post">
+{%block content%}
+<form action="" method="POST">
     {%csrf_token%}
-    {% include "core/form_template.html" %}
-    <input type="submit" value="gönder">
-  
-  </form>
-</div>
+    {%include "core/form_template.html"%}
+    <input class ='btn-primary' type="submit" value="gönder">
+</form>
 
-{% endblock %}
+{%endblock%}

@@ -2,29 +2,40 @@
 	
 		<table class="table table-sm">
 			<tr>
-
+				<th>id</th>
 				<th>İstenen Ürünler</th>
-
 				<th>Sipariş Tarihi</th>
+				<th>bayi</th>
 				<th>Durum</th>
-				<th>Onayla</th>
 				<th>Sil</th>
+				<th></th>
 			</tr>
 
 			{% for siparis in siparişler %}
 				<tr>
-
-						<td><a class="btn btn-sm btn-info text-white" role="button"href="/firma/ürünGöster/{{siparis.pk}}">Ürünleri Gör</a></td>
+						<td>{{siparis.pk}}</td>
+						<td><a class="btn btn-sm btn-info text-white" role="button"href="/core/ürünGöster/{{siparis.pk}}">Ürünleri Gör</a></td>
 						<td>{{siparis.sipariş_tarihi}}</td>
-						{% if siparis.onaylandı %}
-						<td>Onaylandı</td>
-						{% else%}
+						<td>{{siparis.bayi}}</td>
+						{% if siparis.durum == 'b' %}
 						<td>Onay Aşamasında</td>
+						{% elif siparis.durum == 'o' %}
+							{% if siparis.sipariş_takibi == 'h' %}
+							<td>Hazırlanıyor</td>
+							{% elif siparis.sipariş_takibi == 'y' %}
+							<td>Yola Çıktı</td>
+							{%else%}
+							<td>Teslim Edildi</td>
+							{%endif%}
+						{%else%}
+						<td>reddedildi</td>
 						{%endif%}
-						<td><a class="btn btn-sm btn-info text-white"role="button" href="">Onayla</a></td>
-
 						<td><a class="btn btn-sm btn-danger text-white"role="button" href="firmaSiparisSil/{{siparis.pk}}">Sil</a></td>
-
+						{%if siparis.sipariş_takibi != 't' %}
+						<td><a class="btn btn-sm btn-info text-white"role="button" href="/firma/siparişOnayla/{{siparis.pk}}">Onayla</a></td>
+						{%else%}
+						<td></td>
+						{%endif%}
 					</tr>
 				{% endfor %}
 

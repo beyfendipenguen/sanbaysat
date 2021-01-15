@@ -6,6 +6,8 @@ dürümler=[
     (True,'Onaylandı'),
     (False,'Onay Aşamasında')
 ]
+
+
 kapaklar = [
     ('ALM','Aliminyum'),
     ('STL','Çelik')
@@ -24,15 +26,19 @@ voltajlar = [
 
 class Bayi(models.Model):
     adı = models.CharField(max_length=20)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     şehir = models.CharField(max_length=20)
     telefon = models.CharField(max_length=11)
     adres = models.TextField()
     ülke = models.CharField(max_length=20)
     aktif = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.adı
+
 
 class Müşteri(models.Model):
+    bayi = models.ForeignKey(Bayi,on_delete=models.CASCADE) 
     adı = models.CharField(max_length=20)
     soyadı = models.CharField(max_length=20)
     adres = models.TextField()
@@ -47,6 +53,10 @@ class Hammadde(models.Model):
     depodaki_miktar = models.IntegerField(default=0)
     tedarik_süresi = models.IntegerField(default=1)
     kritik_seviye = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.adı
+
 
 
 class Ürün(models.Model):
@@ -60,7 +70,11 @@ class Ürün(models.Model):
     bakım_aralığı = models.IntegerField()
     fiyat = models.FloatField()
     #depodaki_miktar= models.IntegerField(default=0)
-    # Depodaki miktar ürün üretmek için eklendi
+    # Depodaki miktar ürün üretmek için eklendi,
+    
+    def __str__(self):
+        return self.adı
+
 
 
 class Reçete(models.Model):
@@ -68,14 +82,24 @@ class Reçete(models.Model):
     hammadde = models.ForeignKey(Hammadde, on_delete=models.DO_NOTHING)
     miktar = models.IntegerField(default=0)
 
+durumlar= [
+    ('o','onaylandı'),
+    ('b','beklemede'),
+    ('r','reddedildi')
+]
+onaylanan_durumlar = [
+    ('h','hazırlanıyor'),
+    ('y','yola çıktı'),
+    ('t','teslim edildi')
+]
 
 class Sipariş(models.Model):
     bayi = models.ForeignKey(Bayi, on_delete=models.DO_NOTHING)
     sipariş_tarihi = models.DateField(auto_now_add=True,editable=False,blank=True)
     teslim_tarihi = models.DateField(null=True, editable=True,blank=True)
     tutar = models.FloatField(null=True,blank=True)
-
-    onaylandı= models.BooleanField(null=True, choices=dürümler)
+    durum= models.CharField(null=True, choices=durumlar,max_length=13,default='b')
+    sipariş_takibi = models.CharField(null=True, choices=onaylanan_durumlar,max_length=13,default='h')
 
     def __str__(self):
         return str(self.pk)
@@ -92,18 +116,6 @@ class Ödeme(models.Model):
     tarih = models.DateField(auto_now_add=True,editable=False,blank=True)
     ödeme_aracı = models.CharField(max_length=5,choices=ödeme_araçları)
 
-class Bakım(models.Model):
-    müşteri = models.ForeignKey(Müşteri, on_delete=models.DO_NOTHING)
-    ürün = models.ForeignKey(Ürün, on_delete=models.DO_NOTHING)
-    bakım_tarihi = models.DateField(auto_now_add=True, editable=False, blank=True)
-    #TODO gelecek bakım tarihi otomatik olarak ürün bakım aralığı hesaplanıp üzerine eklenecek
-    tutar = models.FloatField()
-
-
-class Katolog(models.Model):
-    ürün = models.ForeignKey(Ürün, on_delete=models.CASCADE)
-    bayi = models.ForeignKey(Bayi, on_delete=models.CASCADE)
-    satış_fiyatı = models.FloatField()
 
 class Satış(models.Model):
     bayi = models.ForeignKey(Bayi, on_delete=models.DO_NOTHING)
@@ -114,17 +126,26 @@ class Satış(models.Model):
     alış_fiyatı = models.FloatField()
     ödeme_aracı = models.CharField(max_length=5,choices=ödeme_araçları)
 
-
-
+class Bakım(models.Model):
+    satış = models.ForeignKey(Satış, on_delete=models.CASCADE, default=None)
+    bakım_tarihi = models.DateField(auto_now_add=True, editable=False, blank=True)
+    gelecek_bakım_tarihi = models.DateField(null = True,blank=True, default=None)
+    açıklama = models.TextField(default="genel bakım")
+    tutar = models.FloatField()
  
+class Katolog(models.Model):
+    ürün = models.ForeignKey(Ürün, on_delete=models.CASCADE)
+    bayi = models.ForeignKey(Bayi, on_delete=models.CASCADE)
+    satış_fiyatı = models.FloatField()
 
-#TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek / Sipariş Sil,Ürünler Sil, Ödemeler  Sil
-    #TODO Sipariş
-    #TODO Ürün ekleme
-    # TODO ürünleri göster tuşu
-    #TODO Bayi
-    #TODO Ödeme
-    #TODO Reçete
+
+#TODO Sipariş onaylandığında hammadde azalması ve email notification
+#TODO Ürün güncelleme
+#TODO Reçete
 #TODO hammadde tedarik sayfası yapılacak.
-#TODO Bayi arayüzündeki fonksiyonlar çalışır hale getirilecek
-#TODO fabrikanın bayi sayfasına girememesi gerek
+#TODO Bayi muhasebe tablosu
+#TODO RestAPI ile müşteri ürün bakım bilgisi
+
+
+#TODO settings sayfasına current user bayi nasıl olur bi düşün araştır ???
+#TODO session araştır.
