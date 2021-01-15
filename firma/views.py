@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .forms import ürünEkleForm, ödemeEkleForm
-from core.models import Sipariş, Ürün, Ödeme, Bayi, Sipariş_Ürün
+from core.models import Sipariş, Ürün, Ödeme, Bayi, Sipariş_Ürün, Hammadde, Reçete
 """
 def modelAdıEkle(request):
     if request.method == "POST":
@@ -74,7 +74,9 @@ def firma(request):
     ürünler = Ürün.objects.all()
     bayiler = Bayi.objects.all()
     ödemeler = Ödeme.objects.all()
-    return render(request, "firma/firma.html", {"siparişler":siparişler, "ürünler":ürünler, "bayiler":bayiler,"ödemeler":ödemeler})
+    hammaddeler = Hammadde.objects.all()
+    receteler = Reçete.objects.all()
+    return render(request, "firma/firma.html", {"siparişler":siparişler, "ürünler":ürünler, "bayiler":bayiler,"ödemeler":ödemeler, "hammaddeler":hammaddeler, "receteler": receteler})
 
 
 def siparişÜrün(request,id):
@@ -116,6 +118,17 @@ def bayiler(request):
 
 def urunler(request):
     return render(request, "firma/urunler.html", {})
+
+def receteler(request):
+    return render(request, "firma/recete.html", {})
+
+def hammaddeler(request):
+    return render(request, "firma/tedarik.html",{})
+
+def siparisEkle(request):
+    s = Sipariş()
+    context = {}
+    return render(request, "firma/siparisler.html", context)
 
 def firmaSiparisSil(request,id):
     firmaSiparis= Sipariş.objects.get(pk=id)
