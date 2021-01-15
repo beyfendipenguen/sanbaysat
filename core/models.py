@@ -139,14 +139,13 @@ class Katolog(models.Model):
     satış_fiyatı = models.FloatField()
 
 
-#TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek / Sipariş Sil,Ürünler Sil, Ödemeler  Sil
-    #TODO Sipariş
-    #TODO Ürün ekleme
-    # TODO ürünleri göster tuşu
-    #TODO Bayi
-    #TODO Ödeme
-    #TODO Reçete
+#TODO Sipariş onaylandığında hammadde azalması ve email notification
+#TODO Ürün güncelleme
+#TODO Reçete
 #TODO hammadde tedarik sayfası yapılacak.
-#TODO Bayi arayüzündeki fonksiyonlar çalışır hale getirilecek
-#TODO fabrikanın bayi sayfasına girememesi gerek
+#TODO Bayi muhasebe tablosu
+#TODO RestAPI ile müşteri ürün bakım bilgisi
+
+
 #TODO settings sayfasına current user bayi nasıl olur bi düşün araştır ???
+#TODO session araştır.

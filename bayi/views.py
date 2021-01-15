@@ -124,13 +124,16 @@ def bayi(request):
     except:
         return redirect('loginPage')
     if user is not None:
-        if user.is_staff:
+        if user.is_superuser:
+            return redirect('firma')
+        elif user.is_staff:
             bayi = Bayi.objects.get(user=user)
             bakımlar = Bakım.objects.filter(satış__bayi=bayi)
             bayisatis = Satış.objects.filter(bayi=bayi)
             siparişler = Sipariş.objects.filter(bayi=bayi)
             context = {"bayisatis":bayisatis,'bakımlar':bakımlar,'siparişler':siparişler}
             return render(request, "bayi/bayi.html", context)
+        
         else:
             return redirect('bilgilendirme')
 

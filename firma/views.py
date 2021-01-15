@@ -16,6 +16,20 @@ def modelAdıEkle(request):
     context = {"form":form}
     return render(request,"tempalteAdı",context)
 """ 
+def siparişOnayla(request,id):
+    sipariş = Sipariş.objects.get(pk=id)
+    if sipariş.durum == 'b':
+        sipariş.durum='o'
+        sipariş.sipariş_takibi = 'h'
+        sipariş.save()
+        return redirect('firma')
+    elif sipariş.sipariş_takibi== 'h':
+        sipariş.sipariş_takibi = 'y'
+        sipariş.save()
+        return redirect('firma')
+    else:
+        return redirect('firma')
+
 def ödemeEkle(request):
     if request.method == "POST":
         form = ödemeEkleForm(request.POST)
@@ -60,8 +74,6 @@ def firma(request):
     ürünler = Ürün.objects.all()
     bayiler = Bayi.objects.all()
     ödemeler = Ödeme.objects.all()
-
-
     return render(request, "firma/firma.html", {"siparişler":siparişler, "ürünler":ürünler, "bayiler":bayiler,"ödemeler":ödemeler})
 
 
