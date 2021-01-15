@@ -1,5 +1,5 @@
 {% extends "home/index.html"%}
-
+{%block title%}Sipariş Ver{%endblock%}
 {%block logout%}
 <ul class="navbar-nav mr-auto">
   <li class="nav-item active">
@@ -8,11 +8,11 @@
 </ul>
 {%endblock%}
 
-{%block content%}
+{% block content %}
 <form action="" method="POST">
     {%csrf_token%}
-    {%include "core/form_template.html"%}
-    <input class ='btn-primary' type="submit" value="gönder">
+    {%include 'core/form_template.html'%}
+    <input class="btn-primary" type="submit" value="gönder">
 </form>
 
-{%endblock%}
+{% endblock %}

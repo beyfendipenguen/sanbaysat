@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from core.models import Satış, Sipariş, Bayi, Bakım, Müşteri
-from .forms import SiparisForm, createBayi, nameForm, satışEkleForm, müşteriEkleForm
+from core.models import Satış, Sipariş, Bayi, Bakım, Müşteri, Sipariş_Ürün
+from .forms import SiparisForm, createBayi, nameForm, satışEkleForm, müşteriEkleForm, bakımYapForm, siparişÜrünForm
+from dateutil.relativedelta import relativedelta
+from datetime import date
+
+"""
+user = User.objects.get(pk=request.user.id)
+bayi = Bayi.objects.get(user = user)
+"""
+
 """
 def modelAdıEkle(request):
     if request.method == "POST":
@@ -16,18 +24,69 @@ def modelAdıEkle(request):
     context = {"form":form}
     return render(request,"tempalteAdı",context)
 """ 
-def bakımYap(request):
-    context = {}
+def teslimAl(request,id):
+    sipariş= Sipariş.objects.get(pk=id)
+    sipariş.sipariş_takibi='t'
+    sipariş.save()
+    return redirect('bayi')
+
+
+def siparişVer(request):
+    user = User.objects.get(pk=request.user.id)
+    bayi = Bayi.objects.get(user = user)
+    sipariş = Sipariş(bayi=bayi)
+    if request.method == 'POST':
+        form = siparişÜrünForm(request.POST)
+        if form.is_valid():
+            siparişÜrün = Sipariş_Ürün(
+                sipariş = sipariş,
+                ürün = form.cleaned_data['ürün'],
+                adet = form.cleaned_data['adet']
+            )
+            sipariş.save()
+            siparişÜrün.save()
+            return redirect('bayi')
+    else:
+        form = siparişÜrünForm()
+    context = {'form':form}
+    return render(request, 'bayi/siparişVer.html',context)
+
+def bakımYap(request,id):
+    user = User.objects.get(pk=request.user.id)
+    bayi = Bayi.objects.get(user = user)
+    satış = Satış.objects.get(pk=id)
+    if request.method == 'POST':
+        form = bakımYapForm(request.POST)
+        if form.is_valid():
+            bakım = Bakım(
+                satış = satış,
+                açıklama = form.cleaned_data['açıklama'],
+                tutar = form.cleaned_data['tutar'],
+                gelecek_bakım_tarihi = date.today()+relativedelta(months=+satış.ürün.bakım_aralığı)
+            )
+            bakım.save()
+            return redirect('bayi')
+    else:
+        form = bakımYapForm()
+    context = {'form':form}
     return render(request, 'bayi/bakımYap.html', context)
 
 
 def müşteriEkle(request):
+    user = User.objects.get(pk=request.user.id)
+    bayi = Bayi.objects.get(user = user)
+    print(bayi)
     if request.method == "POST":
         form = müşteriEkleForm(request.POST)
         if form.is_valid():
-            #form bilgileri
-            #model.save()
-            form.save()
+            müşteri = Müşteri(
+                adı = form.cleaned_data['adı'],
+                soyadı = form.cleaned_data['soyadı'],
+                adres = form.cleaned_data['adres'],
+                telefon = form.cleaned_data['telefon'],
+                bayi = bayi
+            )
+            müşteri.save()
             return redirect("satışEkle")
     
     else:
@@ -67,9 +126,10 @@ def bayi(request):
     if user is not None:
         if user.is_staff:
             bayi = Bayi.objects.get(user=user)
+            bakımlar = Bakım.objects.filter(satış__bayi=bayi)
             bayisatis = Satış.objects.filter(bayi=bayi)
-            form = SiparisForm()
-            context = {"bayisatis":bayisatis, "form":form}
+            siparişler = Sipariş.objects.filter(bayi=bayi)
+            context = {"bayisatis":bayisatis,'bakımlar':bakımlar,'siparişler':siparişler}
             return render(request, "bayi/bayi.html", context)
         else:
             return redirect('bilgilendirme')

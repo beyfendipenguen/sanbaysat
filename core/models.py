@@ -6,6 +6,8 @@ dürümler=[
     (True,'Onaylandı'),
     (False,'Onay Aşamasında')
 ]
+
+
 kapaklar = [
     ('ALM','Aliminyum'),
     ('STL','Çelik')
@@ -80,14 +82,24 @@ class Reçete(models.Model):
     hammadde = models.ForeignKey(Hammadde, on_delete=models.DO_NOTHING)
     miktar = models.IntegerField(default=0)
 
+durumlar= [
+    ('o','onaylandı'),
+    ('b','beklemede'),
+    ('r','reddedildi')
+]
+onaylanan_durumlar = [
+    ('h','hazırlanıyor'),
+    ('y','yola çıktı'),
+    ('t','teslim edildi')
+]
 
 class Sipariş(models.Model):
     bayi = models.ForeignKey(Bayi, on_delete=models.DO_NOTHING)
     sipariş_tarihi = models.DateField(auto_now_add=True,editable=False,blank=True)
     teslim_tarihi = models.DateField(null=True, editable=True,blank=True)
     tutar = models.FloatField(null=True,blank=True)
-
-    onaylandı= models.BooleanField(null=True, choices=dürümler)
+    durum= models.CharField(null=True, choices=durumlar,max_length=13,default='b')
+    sipariş_takibi = models.CharField(null=True, choices=onaylanan_durumlar,max_length=13,default='h')
 
     def __str__(self):
         return str(self.pk)
@@ -104,20 +116,6 @@ class Ödeme(models.Model):
     tarih = models.DateField(auto_now_add=True,editable=False,blank=True)
     ödeme_aracı = models.CharField(max_length=5,choices=ödeme_araçları)
 
-class Bakım(models.Model):
-    müşteri = models.ForeignKey(Müşteri, on_delete=models.DO_NOTHING)
-    ürün = models.ForeignKey(Ürün, on_delete=models.DO_NOTHING)
-    bakım_tarihi = models.DateField(auto_now_add=True, editable=False, blank=True)
-    #TODO gelecek bakım tarihi otomatik olarak ürün bakım aralığı hesaplanıp üzerine eklenecek
-    #TODO auto_now_add 
-    tutar = models.FloatField()
-
-#Bakım(müşteri=şu,ürün=bu,gelecek_bakım_tarihi=date.now+ürün.bakım_aralığı,tutar=o)
-
-class Katolog(models.Model):
-    ürün = models.ForeignKey(Ürün, on_delete=models.CASCADE)
-    bayi = models.ForeignKey(Bayi, on_delete=models.CASCADE)
-    satış_fiyatı = models.FloatField()
 
 class Satış(models.Model):
     bayi = models.ForeignKey(Bayi, on_delete=models.DO_NOTHING)
@@ -128,9 +126,18 @@ class Satış(models.Model):
     alış_fiyatı = models.FloatField()
     ödeme_aracı = models.CharField(max_length=5,choices=ödeme_araçları)
 
-
-
+class Bakım(models.Model):
+    satış = models.ForeignKey(Satış, on_delete=models.CASCADE, default=None)
+    bakım_tarihi = models.DateField(auto_now_add=True, editable=False, blank=True)
+    gelecek_bakım_tarihi = models.DateField(null = True,blank=True, default=None)
+    açıklama = models.TextField(default="genel bakım")
+    tutar = models.FloatField()
  
+class Katolog(models.Model):
+    ürün = models.ForeignKey(Ürün, on_delete=models.CASCADE)
+    bayi = models.ForeignKey(Bayi, on_delete=models.CASCADE)
+    satış_fiyatı = models.FloatField()
+
 
 #TODO Fabrikanın arayüzündeki fonksiyonlar çalışır hale getirilecek / Sipariş Sil,Ürünler Sil, Ödemeler  Sil
     #TODO Sipariş
@@ -142,3 +149,4 @@ class Satış(models.Model):
 #TODO hammadde tedarik sayfası yapılacak.
 #TODO Bayi arayüzündeki fonksiyonlar çalışır hale getirilecek
 #TODO fabrikanın bayi sayfasına girememesi gerek
+#TODO settings sayfasına current user bayi nasıl olur bi düşün araştır ???

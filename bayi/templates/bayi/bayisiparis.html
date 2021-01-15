@@ -1,14 +1,37 @@
-<div class="row">
-  <div class="col-md-6">
-    <div class="card card-body">
+<div class="card card-body">
+	
+  <table class="table table-sm">
+    <tr>
+      <th>İstenen Ürünler</th>
+      <th>Sipariş Tarihi</th>
+      <th>Durum</th>
+      <th>Sil</th>
+    </tr>
 
-      <form action="" method="POST">
-        {% csrf_token %}
-        {{form}}
+    {% for siparis in siparişler %}
+      <tr>
 
-        <input type="submit" name="Submit">
-      </form>
+          <td><a class="btn btn-sm btn-info text-white" role="button"href="/core/ürünGöster/{{siparis.pk}}">Ürünleri Gör</a></td>
+          <td>{{siparis.sipariş_tarihi}}</td>
+          {% if siparis.durum == 'o'%}
+            {%if siparis.sipariş_takibi == 'y'%}
+              <td><a class="btn btn-sm btn-success text-white"role="button" href="/bayi/teslimAl/{{siparis.pk}}">Teslimatı onayla</a></td>
+            {%elif siparis.sipariş_takibi == 'h'%}
+              <td>Siparişiniz Hazırlanıyor</td>
+            {%else%}
+              <td>Teslim Edildi</td>
+            {%endif%}    
+          {%elif siparis.durum == 'b'%}
+          <td>onay aşamasında</td>
+          {%else%}
+          <td>reddedildi</td>
+          {%endif%}
+          <td><a class="btn btn-sm btn-danger text-white"role="button" href="firmaSiparisSil/{{siparis.pk}}">Sil</a></td>
+        </tr>
+      {% endfor %}
 
-    </div>
+  
+    </table>
+  <a class="btn btn-sm btn-success text-white" role="button" href="/bayi/siparişVer">+Sipariş Ver</a>
+
   </div>
-</div>
