@@ -1,2 +1,5 @@
 python-dateutil
 django >= 3.1.5
+djangorestframework
+markdown
+django-filter
