@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from .forms import ürünEkleForm, ödemeEkleForm
-from core.models import Sipariş, Ürün, Ödeme, Bayi, Sipariş_Ürün, Hammadde, Reçete
+from .forms import ürünEkleForm, ödemeEkleForm, ürünGüncelleForm, reçeteEkleForm, hammaddeEkleForm, reçeteGüncelleForm, hammaddeGüncelleForm
+from core.models import Sipariş, Ürün, Ödeme, Bayi, Sipariş_Ürün, Hammadde, Reçete, Müşteri, Bakım
 """
 def modelAdıEkle(request):
     if request.method == "POST":
@@ -15,13 +16,121 @@ def modelAdıEkle(request):
         form = modelAdıEkleForm()
     context = {"form":form}
     return render(request,"tempalteAdı",context)
+
+def modelGüncelle(request,id):
+    model=Model.objects.get(pk=id)
+    if request.method == "POST":
+        form = modelGüncelleForm(request.POST)
+        if form.is_valid():
+           
+            return redirect("")
+    else:
+        form = modelGüncelleForm(instance=model)
+    context = {"form":form}
+    return render(request,"template",context)
+
+
+
 """ 
+def reçeteGüncelle(request,id):
+    reçete=Reçete.objects.get(pk=id)
+    if request.method == "POST":
+        form = reçeteGüncelleForm(request.POST)
+        if form.is_valid():
+            reçete.ürün = form.cleaned_data['ürün']
+            reçete.hammadde = form.cleaned_data['hammadde']
+            reçete.miktar = form.cleaned_data['miktar']
+            reçete.save()
+            return redirect("firma")
+    else:
+        form = reçeteGüncelleForm(instance=reçete)
+    context = {"form":form}
+    return render(request,"firma/reçeteGüncelle.html",context)
+
+def hammaddeGüncelle(request,id):
+    hammadde=Hammadde.objects.get(pk=id)
+    if request.method == "POST":
+        form = hammaddeGüncelleForm(request.POST)
+        if form.is_valid():
+            hammadde.adı = form.cleaned_data['adı']
+            hammadde.depodaki_miktar = form.cleaned_data['depodaki_miktar']
+            hammadde.tedarik_süresi = form.cleaned_data['tedarik_süresi']
+            hammadde.kritik_seviye = form.cleaned_data['kritik_seviye']
+            hammadde.save()
+            return redirect("firma")
+    else:
+        form = hammaddeGüncelleForm(instance=hammadde)
+    context = {"form":form}
+    return render(request,"firma/hammaddeGüncelle.html",context)
+
+
+def reçeteEkle(request):
+    if request.method == "POST":
+        form = reçeteEkleForm(request.POST)
+        if form.is_valid():
+            #form bilgileri
+            #model.save()
+            form.save()
+            return redirect("firma")
+    
+    else:
+        form = reçeteEkleForm()
+    context = {"form":form}
+    return render(request,"firma/reçeteEkle.html",context)
+
+def reçeteSil(request,id):
+    reçete = Reçete.objects.get(pk=id)
+    reçete.delete()
+    return redirect('firma')
+    
+def hammaddeSil(request,id):
+    hammadde = Hammadde.objects.get(pk=id)
+    hammadde.delete()
+    return redirect('firma')
+
+def hammaddeEkle(request):
+    if request.method == "POST":
+        form = hammaddeEkleForm(request.POST)
+        if form.is_valid():
+            #form bilgileri
+            #model.save()
+            form.save()
+            return redirect("firma")
+    
+    else:
+        form = hammaddeEkleForm()
+    context = {"form":form}
+    return render(request,"firma/hammaddeEkle.html",context)
+
+def ürünGüncelle(request,id):
+    ürün=Ürün.objects.get(pk=id)
+    if request.method == "POST":
+        form = ürünGüncelleForm(request.POST)
+        if form.is_valid():
+            urun = Ürün.objects.get(pk=id)
+            urun.adı= form.cleaned_data['adı']
+            urun.kapak  = form.cleaned_data['kapak']
+            urun.genişlik  = form.cleaned_data['genişlik']
+            urun.yükseklik  = form.cleaned_data['yükseklik']
+            urun.kapasite  = form.cleaned_data['kapasite']
+            urun.voltaj  = form.cleaned_data['voltaj']
+            urun.ağırlık  = form.cleaned_data['ağırlık']
+            urun.bakım_aralığı  = form.cleaned_data['bakım_aralığı']
+            urun.fiyat  = form.cleaned_data['fiyat']
+            urun.save()
+            return redirect("firma")
+    else:
+        form = ürünGüncelleForm(instance=ürün)
+    context = {"form":form}
+    return render(request,"firma/ürünGüncelle.html",context)
+
 def siparişOnayla(request,id):
     sipariş = Sipariş.objects.get(pk=id)
     if sipariş.durum == 'b':
         sipariş.durum='o'
         sipariş.sipariş_takibi = 'h'
-        sipariş.save()
+        if üret(sipariş):
+            sipariş.save()
         return redirect('firma')
     elif sipariş.sipariş_takibi== 'h':
         sipariş.sipariş_takibi = 'y'
@@ -29,6 +138,23 @@ def siparişOnayla(request,id):
         return redirect('firma')
     else:
         return redirect('firma')
+
+
+
+def üret(sipariş):
+    #reçete, sipraişürün, hammadde
+    sipariş_ürün = Sipariş_Ürün.objects.filter(sipariş=sipariş)
+
+    for s_ü in sipariş_ürün:
+        reçeteler = Reçete.objects.filter(ürün=s_ü.ürün)
+        for r in reçeteler:
+            hammadde = r.hammadde
+            hammadde.depodaki_miktar-=r.miktar*s_ü.adet
+            if hammadde.depodaki_miktar > hammadde.kritik_seviye:
+                hammadde.save()
+            else:
+                return False
+    return True
 
 def ödemeEkle(request):
     if request.method == "POST":

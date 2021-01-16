@@ -1,9 +1,13 @@
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from core.models import Satış, Sipariş, Bayi, Bakım, Müşteri, Sipariş_Ürün
 from .forms import SiparisForm, createBayi, nameForm, satışEkleForm, müşteriEkleForm, bakımYapForm, siparişÜrünForm
 from dateutil.relativedelta import relativedelta
 from datetime import date
+from django.core.mail import BadHeaderError, send_mail
+from django.http import HttpResponse, HttpResponseRedirect
+
 
 """
 user = User.objects.get(pk=request.user.id)
@@ -31,10 +35,23 @@ def teslimAl(request,id):
     return redirect('bayi')
 
 
-def siparişVer(request):
+def siparişTamamla(request):
     user = User.objects.get(pk=request.user.id)
     bayi = Bayi.objects.get(user = user)
-    sipariş = Sipariş(bayi=bayi)
+    sipariş = Sipariş.objects.get(pk=request.session['sipariş_pk'])
+    siparişler = Sipariş_Ürün.objects.filter(sipariş=sipariş)
+    print(siparişler)
+    send_email(bayi,siparişler)
+    request.session['sipariş_pk'] = -1
+    return redirect('bayi')
+
+def siparişVer(request,spariş=None):
+    user = User.objects.get(pk=request.user.id)
+    bayi = Bayi.objects.get(user = user)
+    if request.session['sipariş_pk'] != -1:
+        sipariş = Sipariş.objects.get(pk=request.session['sipariş_pk'])
+    else:
+        sipariş = Sipariş(bayi=bayi)
     if request.method == 'POST':
         form = siparişÜrünForm(request.POST)
         if form.is_valid():
@@ -44,8 +61,8 @@ def siparişVer(request):
                 adet = form.cleaned_data['adet']
             )
             sipariş.save()
+            request.session['sipariş_pk'] = sipariş.pk
             siparişÜrün.save()
-            return redirect('bayi')
     else:
         form = siparişÜrünForm()
     context = {'form':form}
@@ -70,7 +87,6 @@ def bakımYap(request,id):
         form = bakımYapForm()
     context = {'form':form}
     return render(request, 'bayi/bakımYap.html', context)
-
 
 def müşteriEkle(request):
     user = User.objects.get(pk=request.user.id)
@@ -131,6 +147,7 @@ def bayi(request):
             bakımlar = Bakım.objects.filter(satış__bayi=bayi)
             bayisatis = Satış.objects.filter(bayi=bayi)
             siparişler = Sipariş.objects.filter(bayi=bayi)
+            request.session['sipariş_pk'] = -1
             context = {"bayisatis":bayisatis,'bakımlar':bakımlar,'siparişler':siparişler}
             return render(request, "bayi/bayi.html", context)
         
@@ -179,7 +196,7 @@ def siparisEt(request):
     context = {}
     return render(request, 'bayi/bayisiparis.html',context)
 
-def siparisSil(request,id):
+def satışSil(request,id):
     satis= Satış.objects.get(pk=id)
     satis.delete()
     return redirect("bayi")
@@ -193,3 +210,30 @@ def bakimSil(request,id):
     bakim = Bakım.objects.get(pk=id)
     bakim.delete()
     return redirect("bayi")
+
+def siparişSil(request,id):
+    firmaSiparis= Sipariş.objects.get(pk=id)
+    firmaSiparis.delete()
+    return redirect("bayi")
+
+def send_email(bayi,siparişler):
+    subject = "Bir siparişiniz var."
+
+    message = """
+    Merhaba firma yöneticisi,
+
+        {} bayisi tarafından aşağıdaki listelenen ürünler sipariş edilmiştir.
+    """.format(bayi)
+    for sipariş in siparişler:
+        message+="""
+        ürün adı:   {}
+        ürün adeti: {} 
+        
+    """.format(sipariş.ürün, sipariş.adet)+"-"*50
+    from_email = "sanbaysat@gmail.com"
+    admin_mail = User.objects.all()[0].email
+    if subject and message and from_email:
+        try:
+            send_mail(subject, message,from_email,[admin_mail])
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')

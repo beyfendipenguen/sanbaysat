@@ -17,8 +17,8 @@
       <td>{{hammadde.depodaki_miktar}}</td>
       <td>{{hammadde.tedarik_süresi}}</td>
       <td>{{hammadde.kritik_seviye}}</td>
-      <td><a class="btn btn-sm btn-success text-white" role="button" href="">Güncelle</a></td>
-      <td><a class="btn btn-sm btn-danger text-white" role="button" href="">Sil</a></td>
+      <td><a class="btn btn-sm btn-success text-white" role="button" href="/firma/hammaddeGüncelle/{{hammadde.pk}}">Güncelle</a></td>
+      <td><a class="btn btn-sm btn-danger text-white" role="button" href="/firma/hammaddeSil/{{hammadde.pk}}">Sil</a></td>
       {% endfor %}
 
 
@@ -28,7 +28,7 @@
 <div class="row" style="margin-top: 11px;">
 
   <div class="col-2">
-    <a href="" class="btn btn-m btn-success text-white">+HammaddeEkle</a>
+    <a href="/firma/hammaddeEkle" class="btn btn-m btn-success text-white">+HammaddeEkle</a>
   </div>
 
 </div>

@@ -18,4 +18,12 @@ urlpatterns= [
     path("ürünEkle/", views.ürünEkle, name="ürünEkle"),
     path("ödemeEkle/", views.ödemeEkle, name="ödemeEkle"),
     path('siparişOnayla/<int:id>', views.siparişOnayla, name="siparişOnayla"),
+    path('ürünGüncelle/<int:id>', views.ürünGüncelle, name= "ürünGüncelle"),
+    path('reçeteEkle/', views.reçeteEkle, name='reçeteEkle'),
+    path('hammaddeEkle/', views.hammaddeEkle, name='hammaddeEkle'),
+    path('reçeteGüncelle/<int:id>', views.reçeteGüncelle, name= "reçeteGüncelle"),
+    path('reçeteSil/<int:id>', views.reçeteSil, name= "reçeteSil"),
+    path('hammaddeGüncelle/<int:id>', views.hammaddeGüncelle, name='hammaddeGüncelle'),
+    path('hammaddeSil/<int:id>', views.hammaddeSil, name= "hammaddeSil"),
+
 ]

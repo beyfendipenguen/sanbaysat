@@ -24,8 +24,8 @@
       <td>{{urun.ağırlık}}</td>
       <td>{{urun.bakım_aralığı}}</td>
       <td>{{urun.fiyat}}</td>
-      <td><a class="btn btn-sm btn-primary text-white" role="button" href="">Güncelle</a></td>
-      <td><a class="btn btn-sm btn-danger text-white" role="button" href="firmaUrunSil/{{urun.pk}}">Sil</a></td>
+      <td><a class="btn btn-sm btn-primary text-white" role="button" href="/firma/ürünGüncelle/{{urun.pk}}">Güncelle</a></td>
+      <td><a class="btn btn-sm btn-danger text-white" role="button" href="/firma/firmaUrunSil/{{urun.pk}}">Sil</a></td>
 
     </tr>
     {% endfor %}

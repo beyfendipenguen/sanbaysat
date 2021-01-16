@@ -7,7 +7,7 @@ from bayi.forms import createBayi
 # Create your views here.
 
 def home(request):
-    return render(request, "home/index.html", {})
+    return render(request, "home/index.html",)
 
 
 def urunler(request):

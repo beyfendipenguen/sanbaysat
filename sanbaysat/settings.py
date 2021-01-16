@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'firma',
     'bayi',
     'dateutil',#bakım tarihini ileri atamak için gerekli framework
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,18 @@ STATICFILES_DIRS = [
     BASE_DIR/"static",
 ]
 MIDDLEWARE_CLASSES = ('django.middleware.csrf.CsrfViewMiddleware')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'sanbaysat@gmail.com'
+EMAIL_HOST_PASSWORD = 'muhammedrec123'
+EMAIL_PORT = 587
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

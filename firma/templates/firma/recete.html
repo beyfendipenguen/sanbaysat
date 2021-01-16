@@ -12,11 +12,11 @@
     {% for recete in receteler %}
     <tr>
 
-      <td>{{recete.urun}}</td>
+      <td>{{recete.ürün}}</td>
       <td>{{recete.hammadde}}</td>
       <td>{{recete.miktar}}</td>
-      <td><a class="btn btn-sm btn-success text-white" role="button" href="">Güncelle</a></td>
-    <td><a class="btn btn-sm btn-danger text-white" role="button" href="">Sil</a></td>
+      <td><a class="btn btn-sm btn-success text-white" role="button" href="/firma/reçeteGüncelle/{{recete.pk}}">Güncelle</a></td>
+    <td><a class="btn btn-sm btn-danger text-white" role="button" href="/firma/reçeteSil/{{recete.pk}}">Sil</a></td>
     {% endfor %}
 
 
@@ -24,7 +24,7 @@
   <div class="row" style="margin-top: 11px;">
   
     <div class="col-2">
-      <a href="" class="btn btn-m btn-success text-white">+ReçeteEkle</a>
+      <a href="/firma/reçeteEkle" class="btn btn-m btn-success text-white">+ReçeteEkle</a>
     </div>
   
   </div>

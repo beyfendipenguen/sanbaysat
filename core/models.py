@@ -2,6 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+durumlar= [
+    ('o','onaylandı'),
+    ('b','beklemede'),
+    ('r','reddedildi')
+]
+
+onaylanan_durumlar = [
+    ('h','hazırlanıyor'),
+    ('y','yola çıktı'),
+    ('t','teslim edildi')
+]
+
+
 dürümler=[
     (True,'Onaylandı'),
     (False,'Onay Aşamasında')
@@ -82,16 +95,6 @@ class Reçete(models.Model):
     hammadde = models.ForeignKey(Hammadde, on_delete=models.DO_NOTHING)
     miktar = models.IntegerField(default=0)
 
-durumlar= [
-    ('o','onaylandı'),
-    ('b','beklemede'),
-    ('r','reddedildi')
-]
-onaylanan_durumlar = [
-    ('h','hazırlanıyor'),
-    ('y','yola çıktı'),
-    ('t','teslim edildi')
-]
 
 class Sipariş(models.Model):
     bayi = models.ForeignKey(Bayi, on_delete=models.DO_NOTHING)
@@ -139,13 +142,11 @@ class Katolog(models.Model):
     satış_fiyatı = models.FloatField()
 
 
-#TODO Sipariş onaylandığında hammadde azalması ve email notification
-#TODO Ürün güncelleme
-#TODO Reçete
 #TODO hammadde tedarik sayfası yapılacak.
 #TODO Bayi muhasebe tablosu
 #TODO RestAPI ile müşteri ürün bakım bilgisi
-
+#TODO 
 
 #TODO settings sayfasına current user bayi nasıl olur bi düşün araştır ???
 #TODO session araştır.
+#TODO sipariş tamamlanmadan çıkınca ürün eklenme bugı
