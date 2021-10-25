@@ -3,5 +3,4 @@ from django.views.generic import TemplateView
 
 urlpatterns =[
     path('', TemplateView.as_view(template_name='base.html')),
-    path('signup/', TemplateView.as_view(template_name='Signup.html')),
 ]
