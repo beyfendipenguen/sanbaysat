@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'theme',
     'django_extensions',
     'dealer',
-    'company',
+    'factory',
+    'customer',
     'home',
     'accounts',
 ]
